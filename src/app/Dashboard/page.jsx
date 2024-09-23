@@ -6,26 +6,29 @@ import 'antd/dist/reset.css';
 import AddCompanyModal from '../Component/AddCompanyModal';
 import Header from '../Component/Header';
 import Sidebar from '../Component/Sidebar';
-import Footer from '../Component/footer';
+import Footer from '../Component/Footer';
 
 const { Column } = Table;
 const { Content, Sider } = Layout;
 
 const Dashboard = () => {
   const [email, setEmail] = useState('');
-  const [companies, setCompanies] = useState([]); // State for company data
+  const [companies, setCompanies] = useState([]); 
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedMenu, setSelectedMenu] = useState('1'); // State for selected menu item
+  const [selectedMenu, setSelectedMenu] = useState('1');
   const router = useRouter();
 
   useEffect(() => {
-    const userEmail = localStorage.getItem('userEmail');
-    const userType = localStorage.getItem('userType');
+    
+    if (typeof window !== 'undefined') {
+      const userEmail = localStorage.getItem('userEmail');
+      const userType = localStorage.getItem('userType');
 
-    if (userType !== 'admin') {
-      router.push('/Dashboard');
-    } else {
-      setEmail(userEmail);
+      if (userType !== 'admin') {
+        router.push('/login'); // Redirect to login if not admin
+      } else {
+        setEmail(userEmail);
+      }
     }
   }, [router]);
 
@@ -36,11 +39,12 @@ const Dashboard = () => {
 
   // Define the logout function
   const handleLogout = () => {
-    localStorage.removeItem('userEmail');
-    localStorage.removeItem('userType');
-    window.location.href = '/login'; 
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('userEmail');
+      localStorage.removeItem('userType');
+      window.location.href = '/login'; 
+    }
   };
-  
 
   const renderContent = () => {
     if (selectedMenu === '3') {
