@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { AppstoreOutlined, HomeOutlined, PhoneOutlined, QuestionCircleOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Menu, Switch } from 'antd';
+import { UserContext } from '../Component/userContext';
 
 const Sidebar = ({ onSelectMenu, onLogout }) => {
-  const [theme, setTheme] = useState('dark');
-  const [current, setCurrent] = useState('1');
-
-  const userType = localStorage.getItem('userType'); // Get user type from local storage
+  const { state, dispatch } = useContext(UserContext); // Use context to get state
+  const [current, setCurrent] = useState('1'); // Default selected key
+  const [theme, setTheme] = useState('dark'); // Default theme
 
   const items = [
     {
@@ -31,8 +31,7 @@ const Sidebar = ({ onSelectMenu, onLogout }) => {
     },
   ];
 
-  // Add the Dashboard item only if the user is an admin
-  if (userType === 'admin') {
+  if (state.userType === 'admin') {
     items.splice(2, 0, {
       key: '3',
       label: 'Dashboard',
@@ -49,6 +48,7 @@ const Sidebar = ({ onSelectMenu, onLogout }) => {
     onSelectMenu(e.key);
 
     if (e.key === '5') {
+      dispatch({ type: 'CLEAR_USER' }); // Clear user state on logout
       onLogout();
     }
   };
@@ -56,7 +56,7 @@ const Sidebar = ({ onSelectMenu, onLogout }) => {
   return (
     <div style={{ width: 200, height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
       <Menu
-        theme={theme}
+        theme={theme} // Ensure theme is defined here
         onClick={onClick}
         style={{ flex: 1, borderRight: 0 }}
         selectedKeys={[current]}

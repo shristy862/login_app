@@ -7,7 +7,6 @@ import AddCompanyModal from '../Component/AddCompanyModal';
 import Header from '../Component/Header';
 import Sidebar from '../Component/Sidebar';
 
-
 const { Column } = Table;
 const { Content, Sider } = Layout;
 
@@ -19,36 +18,33 @@ const Dashboard = () => {
   const router = useRouter();
 
   useEffect(() => {
-    
-    if (typeof window !== 'undefined') {
-      const userEmail = localStorage.getItem('userEmail');
-      const userType = localStorage.getItem('userType');
+    // Instead of localStorage, log user info to the console
+    const userEmail = 'user@example.com';  // Replace with actual user email logic
+    const userType = 'admin';               // Replace with actual user type logic
 
-      if (userType !== 'admin') {
-        router.push('/login'); // Redirect to login if not admin
-      } else {
-        setEmail(userEmail);
-      }
+    console.log('User Email:', userEmail);
+    console.log('User Type:', userType);
+
+    if (userType !== 'admin') {
+      router.push('/login'); // Redirect to login if not admin
+    } else {
+      setEmail(userEmail);
     }
   }, [router]);
 
   const handleAddCompany = (newCompany) => {
-    setCompanies([...companies, newCompany]);
+    // Update the companies state with the new company
+    setCompanies((prevCompanies) => [...prevCompanies, newCompany]);
     setModalVisible(false); // Close the modal after adding the company
   };
 
-  // Define the logout function
   const handleLogout = () => {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('userEmail');
-      localStorage.removeItem('userType');
-      window.location.href = '/login'; 
-    }
+    console.log('User logged out'); // Log logout action
+    router.push('/login'); // Redirect to login
   };
 
   const renderContent = () => {
     if (selectedMenu === '3') {
-      // Dashboard content
       return (
         <>
           <Button
@@ -75,7 +71,6 @@ const Dashboard = () => {
         </>
       );
     } else {
-      // Default content for other menu items
       return <h1>Welcome</h1>;
     }
   };

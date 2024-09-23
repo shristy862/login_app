@@ -1,7 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
+import { UserContext } from '../Component/userContext';
 
-const Header = ({ email }) => {
+const Header = () => {
+  const { state } = useContext(UserContext); // Accessing the user state from context
+  const email = state.email; // Get the email from the context
+
   return (
     <div 
       style={{ 
@@ -15,15 +18,10 @@ const Header = ({ email }) => {
         color: 'white' 
       }}
     >
-      <h2 style={{ margin: '0' }}>Logo here </h2>
+      <h2 style={{ margin: '0' }}>Logo here</h2>
       <div style={{ fontSize: '1.2rem' }}>{email ? `Hello, ${email}` : 'Hello, User'}</div>
     </div>
   );
-};
-
-// Optional: defining prop types
-Header.propTypes = {
-  email: PropTypes.string, 
 };
 
 export default Header;

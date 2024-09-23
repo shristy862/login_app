@@ -1,85 +1,62 @@
-"use client"; 
+"use client";
 
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useRouter } from 'next/navigation';
-import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons'; // Import icons from Ant Design
+import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons';
+import { UserContext } from '../Component/userContext'; 
 
-// Function to validate email format
 const validateEmail = (email) => {
   if (!email.includes('@')) {
-    return {
-      validateStatus: 'warning',
-      errorMsg: 'Email must contain "@"!',
-    };
+    return { validateStatus: 'warning', errorMsg: 'Email must contain "@"!' };
   }
-  return {
-    validateStatus: 'success',
-    errorMsg: null,
-  };
+  return { validateStatus: 'success', errorMsg: null };
 };
 
-// Function to validate password
 const validatePassword = (password) => {
   const capitalLetters = password.match(/[A-Z]/g);
   if (!capitalLetters || capitalLetters.length <= 1) {
-    return {
-      validateStatus: 'warning',
-      errorMsg: 'Password must contain more than one capital letter!',
-    };
+    return { validateStatus: 'warning', errorMsg: 'Password must contain more than one capital letter!' };
   }
-  return {
-    validateStatus: 'success',
-    errorMsg: null,
-  };
+  return { validateStatus: 'success', errorMsg: null };
 };
 
-// Function to validate user type selection
 const validateUserType = (userType) => {
   if (userType === "admin" || userType === "employee") {
-    return {
-      validateStatus: 'success',
-      errorMsg: null,
-    };
+    return { validateStatus: 'success', errorMsg: null };
   }
-  return {
-    validateStatus: 'error',
-    errorMsg: 'Please select a valid user type!',
-  };
+  return { validateStatus: 'error', errorMsg: 'Please select a valid user type!' };
 };
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [userType, setUserType] = useState('');
-  const [showPassword, setShowPassword] = useState(false); // State for toggling password visibility
+  const [showPassword, setShowPassword] = useState(false);
 
   const [emailValidation, setEmailValidation] = useState({});
   const [passwordValidation, setPasswordValidation] = useState({});
   const [userTypeValidation, setUserTypeValidation] = useState({});
 
+  const { dispatch } = useContext(UserContext); // Use UserContext
   const router = useRouter();
 
   const handleLogin = (e) => {
     e.preventDefault();
 
-    // Check if all validations pass
     if (
       emailValidation.validateStatus === 'success' &&
       passwordValidation.validateStatus === 'success' &&
       userTypeValidation.validateStatus === 'success'
     ) {
-      console.log(`Logging in with : ${email}
-         passcode: ${password} 
-        accountType : ${userType}`);
+      console.log(`Logging in with: ${email} passcode: ${password} accountType: ${userType}`);
 
-      localStorage.setItem('userEmail', email);
-      localStorage.setItem('userType', userType);
+      dispatch({
+        type: 'SET_USER',
+        payload: { email, userType },
+      });
 
-      if (userType === 'admin') {
-        router.push('/Dashboard');
-      } else {
-        router.push('/Dashboard');
-      }
+      // Redirect based on user type
+      router.push('/Dashboard');
     }
   };
 
