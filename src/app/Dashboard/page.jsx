@@ -6,7 +6,7 @@ import 'antd/dist/reset.css';
 import AddCompanyModal from '../Component/AddCompanyModal';
 import Header from '../Component/Header';
 import Sidebar from '../Component/Sidebar';
-import Footer from '../Component/Footer';
+
 
 const { Column } = Table;
 const { Content, Sider } = Layout;
@@ -95,7 +95,6 @@ const Dashboard = () => {
             {renderContent()}
           </div>
         </Content>
-        <Footer />
       </Layout>
     </Layout>
   );
