@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Modal, Input } from 'antd';
+import { Modal, Input } from 'antd';
 
 const AddCompanyModal = ({ visible, onClose, onAddCompany }) => {
   const [companyName, setCompanyName] = useState('');

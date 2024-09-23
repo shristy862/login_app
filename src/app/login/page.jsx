@@ -1,8 +1,7 @@
-"use client"; // Mark this file as a client component
+"use client"; 
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons'; // Import icons from Ant Design
 
 // Function to validate email format

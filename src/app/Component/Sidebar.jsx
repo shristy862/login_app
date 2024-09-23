@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { AppstoreOutlined, HomeOutlined, PhoneOutlined, QuestionCircleOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Menu, Switch } from 'antd';
-import { useRouter } from 'next/navigation';
 
 const Sidebar = ({ onSelectMenu, onLogout }) => {
   const [theme, setTheme] = useState('dark');
   const [current, setCurrent] = useState('1');
-  const router = useRouter();
 
   const userType = localStorage.getItem('userType'); // Get user type from local storage
 
